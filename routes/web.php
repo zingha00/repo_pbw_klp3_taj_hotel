@@ -10,11 +10,11 @@ use App\Http\Controllers\AdminController;
 // ========== PUBLIC ROUTES ==========
 
 // Home & Static Pages
-Route::get('/', [HomeController::class, 'index'])->name('home'); // akan menampilkan home.blade.php
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
-// Rooms (Public)
+// Rooms (Public - semua bisa akses)
 Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
 Route::get('/rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');
 
@@ -34,7 +34,9 @@ Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallbac
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // ========== RESERVATION ROUTES (Login Required) ==========
+
 Route::middleware(['auth'])->group(function () {
+    // Booking & Reservations
     Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
     Route::get('/reservations/{id}/summary', [ReservationController::class, 'summary'])->name('reservations.summary');
     Route::post('/reservations/{id}/mark-paid', [ReservationController::class, 'markAsPaid'])->name('reservations.mark-paid');
@@ -44,7 +46,9 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // ========== ADMIN ROUTES (Admin Only) ==========
+
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    // Dashboard
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
     // Manage Rooms (CRUD)
