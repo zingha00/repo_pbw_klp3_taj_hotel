@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
-
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,13 +12,14 @@ class HomeController extends Controller
         $rooms = Room::where('available', true)->get();
         return view('home', compact('rooms'));
     }
-    public function aboout()
+
+    public function about()
     {
-        return view ('about');
+        return view('about');
     }
+
     public function contact()
     {
         return view('contact');
     }
-    
 }
