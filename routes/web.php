@@ -10,7 +10,7 @@ use App\Http\Controllers\AdminController;
 // ========== PUBLIC ROUTES ==========
 
 // Home & Static Pages
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
