@@ -19,7 +19,7 @@
 
             <!-- BRAND -->
             <div class="nav-brand">
-                <img src="{{ asset('images/images.jpg') }}" alt="Hotel Logo" class="logo">
+                <img src="{{ asset('img/images.jpg') }}" alt="Hotel Logo" class="logo">
                 <span class="brand-name">Taj-Hotel</span>
             </div>
 
@@ -120,7 +120,7 @@
 
                 <div class="footer-col">
                     <div class="footer-brand">
-                        <img src="{{ asset('images/images.jpg') }}" alt="Hotel Logo" class="logo">
+                        <img src="{{ asset('img/images.jpg') }}" alt="Hotel Logo" class="logo">
                         <span class="brand-name">Taj-Hotel</span>
                     </div>
                     <p>
