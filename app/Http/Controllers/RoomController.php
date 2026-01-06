@@ -29,7 +29,7 @@ class RoomController extends Controller
         if (!auth()->check() || auth()->user()->role !== 'admin') {
             abort(403);
         }
-        
+
         return view('admin.rooms.create');
     }
 
@@ -58,7 +58,7 @@ class RoomController extends Controller
         $validated['available'] = $request->has('available');
 
         Room::create($validated);
-        
+
         return redirect()->route('admin.dashboard')->with('success', 'Room created successfully!');
     }
 
@@ -97,7 +97,7 @@ class RoomController extends Controller
             if ($room->image) {
                 Storage::disk('public')->delete(str_replace('/storage/', '', $room->image));
             }
-            
+
             $imagePath = $request->file('image')->store('rooms', 'public');
             $validated['image'] = '/storage/' . $imagePath;
         }
@@ -105,7 +105,7 @@ class RoomController extends Controller
         $validated['available'] = $request->has('available');
 
         $room->update($validated);
-        
+
         return redirect()->route('admin.dashboard')->with('success', 'Room updated successfully!');
     }
 
@@ -117,14 +117,14 @@ class RoomController extends Controller
         }
 
         $room = Room::findOrFail($id);
-        
+
         // Delete image
         if ($room->image) {
             Storage::disk('public')->delete(str_replace('/storage/', '', $room->image));
         }
-        
+
         $room->delete();
-        
+
         return redirect()->route('admin.dashboard')->with('success', 'Room deleted successfully!');
     }
 }
