@@ -26,6 +26,10 @@ return new class extends Migration {
                 $table->string('avatar')->nullable()->after('google_id');
             }
 
+            if (!Schema::hasColumn('users', 'role')) {
+                $table->string('role')->default('user')->after('password');
+            }
+
             // Make password nullable (untuk Google login)
             $table->string('password')->nullable()->change();
         });

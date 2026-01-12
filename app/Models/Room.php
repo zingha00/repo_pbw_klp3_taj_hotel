@@ -9,17 +9,43 @@ class Room extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+     // Konstanta tipe kamar
+    const TYPE_SINGLE = 'single';
+    const TYPE_DOUBLE = 'double';
+    const TYPE_SUITE = 'suite';
+    const TYPE_COUPLE = 'couple';
+    const TYPE_LUXURY = 'luxury';
+
+    // Array semua tipe
+    public static $types = [
+        'single' => 'Single Room',
+        'double' => 'Double Room',
+        'suite' => 'Suite',
+        'couple' => 'Couple Room',
+        'luxury' => 'Luxury Room'
+    ];
+
+
+        protected $fillable = [
+        'room_number',
         'name',
-        'description',
+        'type',
         'price',
         'capacity',
+        'description',
         'image',
-        'type',
+        'length',
+        'width',
+        'facilities',
+        'status',
         'available'
     ];
 
-    // Relasi: 1 Room punya banyak Reservations
+        protected $casts = [
+        'facilities' => 'array',
+        'available' => 'boolean'
+    ];
+
     public function reservations()
     {
         return $this->hasMany(Reservation::class);
