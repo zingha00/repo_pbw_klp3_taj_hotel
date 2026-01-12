@@ -1,0 +1,301 @@
+/* =====================
+   RESET
+===================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+/* =====================
+   PAGE
+===================== */
+body {
+    background: #f8fafc;
+    min-height: 100vh;
+}
+/* =====================
+   PASSWORD FIELD FIX
+===================== */
+.password-field {
+    position: relative;
+}
+
+.password-field input {
+    width: 100%;
+    padding: 12px 44px 12px 42px; /* kiri icon, kanan eye */
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    font-size: 14px;
+}
+
+/* ICON KIRI (LOCK) */
+.password-field .input-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+}
+
+/* ICON KANAN (EYE) */
+.toggle-password {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #9ca3af;
+}
+
+.toggle-password:hover {
+    color: #2563eb;
+}
+
+/* =====================
+   BACK BUTTON
+===================== */
+.btn-back {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #111;
+    text-decoration: none;
+    z-index: 10;
+}
+
+/* =====================
+   LAYOUT
+===================== */
+.auth-page {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =====================
+   LEFT
+===================== */
+.auth-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-left-content {
+    max-width: 420px;
+}
+
+.auth-left h1 {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.auth-left p {
+    font-size: 16px;
+    color: #64748b;
+}
+
+/* =====================
+   RIGHT
+===================== */
+.auth-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-box {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* =====================
+   HEADER
+===================== */
+.auth-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.logo-big {
+    font-size: 40px;
+    margin-bottom: 8px;
+}
+
+/* =====================
+   FORM
+===================== */
+.form-group {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+}
+
+/* =====================
+   ROLE SELECTOR (NO RADIO AT ALL)
+===================== */
+.role-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+/* RADIO = BENAR-BENAR HILANG */
+.role-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+}
+
+/* CARD */
+.role-card {
+    border: 2px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 18px 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: #ffffff;
+}
+
+.role-card h4 {
+    margin-top: 6px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.role-card p {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* ACTIVE STATE */
+.role-option input:checked + .role-card {
+    border-color: #2563eb;
+    background: #eff6ff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* =====================
+   INPUT
+===================== */
+.input-with-icon {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    color: #9ca3af;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px 14px 12px 42px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    font-size: 14px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+/* =====================
+   PASSWORD
+===================== */
+.password-wrapper {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #9ca3af;
+}
+
+/* =====================
+   BUTTON
+===================== */
+.btn-login {
+    width: 100%;
+    margin-top: 10px;
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* =====================
+   DIVIDER
+===================== */
+.divider {
+    text-align: center;
+    margin: 22px 0;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+/* =====================
+   SOCIAL
+===================== */
+.btn-social {
+    width: 100%;
+    border: 1px solid #e5e7eb;
+    padding: 12px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #111;
+}
+
+/* =====================
+   FOOTER
+===================== */
+.auth-footer {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 14px;
+}

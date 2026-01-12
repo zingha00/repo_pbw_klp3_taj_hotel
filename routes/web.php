@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\RoomController as AdminRoomController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\AuthController;
@@ -49,12 +50,16 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 
     // Manage Rooms (CRUD)
-    Route::get('/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
+    Route::get('/rooms/{room}', [RoomController::class, 'showAdmin'])->name('rooms.show');
     Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
-    Route::get('/rooms/{id}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
-    Route::put('/rooms/{id}', [RoomController::class, 'update'])->name('rooms.update');
-    Route::delete('/rooms/{id}', [RoomController::class, 'destroy'])->name('rooms.destroy');
+    Route::put('/rooms/{room}', [RoomController::class, 'update'])->name('rooms.update');
+    Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy');
+
+    // Manage Reservations
+    Route::patch('/reservations/{id}/confirm', [AdminController::class, 'confirmReservation'])->name('reservations.confirm');
+    Route::patch('/reservations/{id}/cancel', [AdminController::class, 'cancelReservation'])->name('reservations.cancel');
+
 });

@@ -15,20 +15,19 @@
             </div>
         </div>
     </section>
-
-    <!-- Rooms Section -->
-    <section class="rooms-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>ROOMS & RATES</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, repellat.</p>
-            </div>
+<!-- Rooms Section -->
+            <section class="rooms-section">
+<div class="container">
+                    <div class="section-header">
+                        <h2>ROOMS & RATES</h2>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, repellat.</p>
+                    </div>
 
             <div class="rooms-grid">
                 @forelse($rooms as $room)
                     <div class="room-card">
                         <div class="room-image">
-                            <img src="{{ $room->image ?? 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=400' }}"
+                            <img src="{{ $room->image ? asset('storage/' . $room->image) : 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=400' }}"
                                 alt="{{ $room->name }}">
                         </div>
                         <div class="room-info">

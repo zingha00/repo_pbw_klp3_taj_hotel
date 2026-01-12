@@ -12,7 +12,11 @@ class ReservationController extends Controller
     // READ: Tampilkan reservasi user
     public function myReservations()
     {
-        $reservations = Reservation::with('room')->latest()->get();
+        $reservations = Reservation::with('room')
+        ->where('user_id', auth()->id())
+        ->latest()
+        ->get();
+
         return view('reservations.my-reservations', compact('reservations'));
     }
 
@@ -45,6 +49,7 @@ class ReservationController extends Controller
         $totalPrice = $days * $room->price;
 
         Reservation::create([
+            'user_id' => auth()->id(),
             'room_id' => $validated['room_id'],
             'guest_name' => $validated['guest_name'],
             'phone' => $validated['phone'],
