@@ -44,6 +44,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payment-success', [ReservationController::class, 'paymentSuccess'])->name('payment.success');
     Route::get('/my-reservations', [ReservationController::class, 'myReservations'])->name('reservations.my');
     Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+    Route::patch('/reservations/{id}/confirm', [AdminController::class, 'confirmReservation'])->name('reservations.confirm');
+    Route::patch('/reservations/{id}/cancel', [AdminController::class, 'cancelReservation'])->name('reservations.cancel');
+
 });
 
 // ========== ADMIN ROUTES (Admin Only) ==========
@@ -57,9 +60,4 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
     Route::put('/rooms/{room}', [RoomController::class, 'update'])->name('rooms.update');
     Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy');
-
-    // Manage Reservations
-    Route::patch('/reservations/{id}/confirm', [AdminController::class, 'confirmReservation'])->name('reservations.confirm');
-    Route::patch('/reservations/{id}/cancel', [AdminController::class, 'cancelReservation'])->name('reservations.cancel');
-
 });
