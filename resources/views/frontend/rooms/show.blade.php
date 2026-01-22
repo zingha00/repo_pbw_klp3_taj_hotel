@@ -8,7 +8,10 @@
         <div class="room-detail-grid">
             <!-- Room Image -->
             <div class="room-detail-image">
-                <img src="{{ $room->image ?? 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800' }}" alt="{{ $room->name }}">
+                <img 
+    src="{{ $room->image ? asset('storage/'.$room->image) : 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=400' }}"
+    alt="{{ $room->name }}"
+>
             </div>
 
             <!-- Booking Form -->

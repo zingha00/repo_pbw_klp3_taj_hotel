@@ -16,7 +16,9 @@
             @forelse($rooms as $room)
             <div class="room-card">
                 <div class="room-image">
-                    <img src="{{ $room->image ?? 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=400' }}" alt="{{ $room->name }}">
+                    <img 
+                        src="{{ $room->image ? asset('storage/'.$room->image) : 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=400' }}"
+                        alt="{{ $room->name }}">
                     @if(!$room->available)
                         <span class="badge-unavailable">Not Available</span>
                     @endif
@@ -39,4 +41,4 @@
         </div>
     </div>
 </section>
-@endsections
+@endsection

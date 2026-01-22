@@ -2,129 +2,124 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class RoomController extends Controller
 {
-    // READ: Tampilkan semua rooms (Public)
-    public function index()
+     public function index()
     {
         $rooms = Room::all();
-        return view('rooms.index', compact('rooms'));
+        return view('frontend.rooms.index', compact('rooms'));
     }
 
-    // READ: Tampilkan detail 1 room (Public)
-    public function show($id)
+    public function show(Room $room)
     {
-        $room = Room::findOrFail($id);
-        return view('rooms.show', compact('room'));
+        return view('frontend.rooms.show', compact('room'));
     }
 
-    // CREATE: Form tambah room (Admin only)
-    public function create()
-    {
-        // Check if admin
-        if (!auth()->check() || auth()->user()->role !== 'admin') {
-            abort(403);
-        }
-
-        return view('admin.rooms.create');
-    }
-
-    // CREATE: Simpan room baru (Admin only)
     public function store(Request $request)
     {
-        if (!auth()->check() || auth()->user()->role !== 'admin') {
-            abort(403);
+        $data = $request->validate([
+            'room_number' => 'required|unique:rooms,room_number',
+            'name'        => 'required',
+            'type'        => 'required', 
+            'price'       => 'required|numeric',
+            'capacity'    => 'required|integer',
+            'length'      => 'nullable|numeric',
+            'width'       => 'nullable|numeric',
+            'description' => 'nullable|string',
+            'facilities'  => 'nullable|array',
+            'status'      => 'required|in:available,occupied,maintenance',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
+        // upload image
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('rooms', 'public');
         }
 
-        $validated = $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'capacity' => 'required|numeric',
-            'type' => 'required',
+        if ($request->facilities) {
+            $data['facilities'] = json_encode($request->facilities);
+        }
+
+        // derive available flag from status
+        $data['available'] = $data['status'] === 'available';
+
+        Room::create($data);
+
+        return redirect()->back()->with('success', 'Kamar berhasil ditambahkan!');
+    }
+
+    public function update(Request $request, Room $room)
+    {
+        // Normalisasi dulu sebelum validate
+        $request->merge([
+            'type' => strtolower($request->input('type')),
+            'status' => strtolower($request->input('status')),
+        ]);
+
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'room_number' => 'required|string|max:50',
+            'type' => 'required|in:single,double,suite,couple,luxury',
+            'price' => 'required|numeric|min:0',
+            'capacity' => 'required|integer|min:1',
+            'status' => 'required|in:available,occupied,maintenance',
+            'description' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
         ]);
 
-        // Handle image upload
+        // image upload
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('rooms', 'public');
-            $validated['image'] = '/storage/' . $imagePath;
-        }
-
-        $validated['available'] = $request->has('available');
-
-        Room::create($validated);
-
-        return redirect()->route('admin.dashboard')->with('success', 'Room created successfully!');
-    }
-
-    // UPDATE: Form edit room (Admin only)
-    public function edit($id)
-    {
-        if (!auth()->check() || auth()->user()->role !== 'admin') {
-            abort(403);
-        }
-
-        $room = Room::findOrFail($id);
-        return view('admin.rooms.edit', compact('room'));
-    }
-
-    // UPDATE: Simpan perubahan (Admin only)
-    public function update(Request $request, $id)
-    {
-        if (!auth()->check() || auth()->user()->role !== 'admin') {
-            abort(403);
-        }
-
-        $validated = $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'capacity' => 'required|numeric',
-            'type' => 'required',
-            'image' => 'nullable|image|max:2048',
-        ]);
-
-        $room = Room::findOrFail($id);
-
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            // Delete old image
             if ($room->image) {
-                Storage::disk('public')->delete(str_replace('/storage/', '', $room->image));
+                Storage::disk('public')->delete($room->image);
             }
-
-            $imagePath = $request->file('image')->store('rooms', 'public');
-            $validated['image'] = '/storage/' . $imagePath;
+            $data['image'] = $request->file('image')->store('rooms', 'public');
         }
 
-        $validated['available'] = $request->has('available');
+        // available selalu diturunkan dari status
+        $data['available'] = $data['status'] === 'available';
 
-        $room->update($validated);
+        $room->update($data);
 
-        return redirect()->route('admin.dashboard')->with('success', 'Room updated successfully!');
+        return redirect()->route('admin.dashboard')
+                        ->with('success', 'Kamar berhasil diperbarui!')
+                        ->with('active_tab', 'rooms');
     }
 
-    // DELETE: Hapus room (Admin only)
-    public function destroy($id)
+
+    public function destroy(Room $room)
     {
-        if (!auth()->check() || auth()->user()->role !== 'admin') {
-            abort(403);
-        }
-
-        $room = Room::findOrFail($id);
-
-        // Delete image
+        // Delete image if exists
         if ($room->image) {
-            Storage::disk('public')->delete(str_replace('/storage/', '', $room->image));
+            Storage::disk('public')->delete($room->image);
         }
 
         $room->delete();
 
-        return redirect()->route('admin.dashboard')->with('success', 'Room deleted successfully!');
+        return redirect()->back()->with('success', 'Room deleted successfully!');
+    }
+
+    public function edit(Room $room)
+    {
+        return view('frontend.rooms.edit', compact('room'));
+    }
+
+    public function showAdmin(Room $room)
+    {
+        return response()->json([
+            'id' => $room->id,
+            'room_number' => $room->room_number,
+            'name' => $room->name,
+            'type' => strtolower($room->type),
+            'price' => $room->price,
+            'capacity' => $room->capacity,
+            'status' => strtolower($room->status),
+            'description' => $room->description,
+            'image' => $room->image,
+        ]);
     }
 }
