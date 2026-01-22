@@ -1,0 +1,80 @@
+/* ===========================
+   RESERVATION PAGE STYLES
+=========================== */
+
+:root {
+    --gold: #c9a961;
+    --gold-dark: #b8935f;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Status Badges */
+.status-pending {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-verification {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+
+
+.status-paid {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.status-completed {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.status-cancelled {
+    background-color: #ffafaf;
+    color: #991b1b;
+}
+
+/* Gold Accent */
+.gold-accent {
+    color: var(--gold);
+}
+
+/* Button Primary */
+.btn-primary {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(201, 169, 97, 0.3);
+}
+
+/* Modal Backdrop */
+#cancel-modal {
+    backdrop-filter: blur(4px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .font-display {
+        font-size: 1.875rem;
+    }
+}
