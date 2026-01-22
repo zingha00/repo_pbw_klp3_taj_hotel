@@ -6,26 +6,17 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    /**
+     * Seed the application's database.
+     */
+
     public function run(): void
     {
         $this->call([
+            UserSeeder::class,
+            HotelProfileSeeder::class,
             RoomSeeder::class,
-        ]);
-
-        // Create admin user
-        \App\Models\User::create([
-            'name' => 'Admin Hotel',
-            'email' => 'admin@hotel.com',
-            'password' => bcrypt('password'),
-            'role' => 'admin'
-        ]);
-
-        // Create test customer
-        \App\Models\User::create([
-            'name' => 'Test User',
-            'email' => 'user@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'customer'
+            BookingSeeder::class,
         ]);
     }
 }

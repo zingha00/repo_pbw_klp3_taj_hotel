@@ -1,60 +1,86 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\RoomController;
-use App\Http\Controllers\ReservationController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\RoomController;
+use App\Http\Controllers\User\BookingController;
+use App\Http\Controllers\User\PaymentController;
+use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\ReviewController;
 
-// ========== PUBLIC ROUTES ==========
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application.
+|
+*/
 
-// Home & Static Pages
+// Public Routes (User)
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/about', [HomeController::class, 'about'])->name('about');
-Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
-// Rooms (Public - semua bisa akses)
-Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
-Route::get('/rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');
-
-// ========== AUTHENTICATION ROUTES ==========
-
-// Login & Register
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
-
-// Google OAuth
-Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
-Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
-
-// Logout
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-// ========== RESERVATION ROUTES (Login Required) ==========
-
-Route::middleware(['auth'])->group(function () {
-    // Booking & Reservations
-    Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
-    Route::get('/reservations/{id}/summary', [ReservationController::class, 'summary'])->name('reservations.summary');
-    Route::post('/reservations/{id}/mark-paid', [ReservationController::class, 'markAsPaid'])->name('reservations.mark-paid');
-    Route::get('/payment-success', [ReservationController::class, 'paymentSuccess'])->name('payment.success');
-    Route::get('/my-reservations', [ReservationController::class, 'myReservations'])->name('reservations.my');
-    Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+// Rooms
+Route::prefix('rooms')->name('rooms.')->group(function () {
+    Route::get('/', [RoomController::class, 'index'])->name('index');
+    Route::get('/{room}', [RoomController::class, 'show'])->name('show');
 });
 
-// ========== ADMIN ROUTES (Admin Only) ==========
+// About & Contact (Public - tidak perlu login)
+Route::get('/about', function () {
+    return view('user.about');
+})->name('about');
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-    // Dashboard
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+Route::get('/contact', function () {
+    return view('user.contact');
+})->name('contact');
 
-    // Manage Rooms (CRUD)
-    Route::get('/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
-    Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
-    Route::get('/rooms/{id}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
-    Route::put('/rooms/{id}', [RoomController::class, 'update'])->name('rooms.update');
-    Route::delete('/rooms/{id}', [RoomController::class, 'destroy'])->name('rooms.destroy');
+
+// Protected User Routes (Authenticated)
+Route::middleware(['auth', 'role:user'])->group(function () {
+
+    // Booking
+    Route::prefix('bookings')->name('bookings.')->group(function () {
+        Route::get('/create/{room}', [BookingController::class, 'create'])->name('create');
+        Route::post('/store', [BookingController::class, 'store'])->name('store');
+        Route::get('/detail/{booking}', [BookingController::class, 'show'])->name('detail');
+        Route::patch('/{booking}/cancel', [BookingController::class, 'cancel'])
+    ->name('cancel');
+
+    });
+
+    // Reservation (My Bookings)
+    Route::prefix('reservations')->name('reservations.')->group(function () {
+        Route::get('/', [BookingController::class, 'myReservations'])->name('index');
+    });
+
+    // Payment
+    Route::prefix('payment')->name('payment.')->group(function () {
+        Route::get('/{booking}', [PaymentController::class, 'index'])->name('index');
+        Route::post('/process', [PaymentController::class, 'process'])->name('process');
+        Route::post('/upload-proof/{payment}', [PaymentController::class, 'uploadProof'])->name('upload-proof');
+    });
+
+    // Profile
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'index'])->name('index');
+        Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
+        Route::put('/update', [ProfileController::class, 'update'])->name('update');
+        Route::post('/update-avatar', [ProfileController::class, 'updateAvatar'])->name('update-avatar');
+        Route::put('/change-password', [ProfileController::class, 'changePassword'])->name('change-password');
+    });
+
+    // Reviews
+    Route::prefix('reviews')->name('reviews.')->group(function () {
+        Route::post('/store', [ReviewController::class, 'store'])->name('store');
+        Route::put('/{review}', [ReviewController::class, 'update'])->name('update');
+        Route::delete('/{review}', [ReviewController::class, 'destroy'])->name('destroy');
+    });
+
 });
+
+// Include Auth Routes
+require __DIR__.'/auth.php';
+
+// Include Admin Routes
+require __DIR__ . '/admin.php';
