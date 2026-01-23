@@ -191,6 +191,22 @@
                                 </div>
                             </div>
                         </div>
+<<<<<<< HEAD
+=======
+
+                        <!-- ✅ GALLERY IMAGES (OPTIONAL) -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Foto Galeri (Opsional)
+                                <span class="text-xs text-gray-500">(Maksimal 5 foto tambahan)</span>
+                            </label>
+                            <input type="file" name="images[]" multiple accept="image/*" id="gallery-images"
+                                   class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100">
+                            <p class="text-sm text-gray-500 mt-1">Upload maksimal 5 foto tambahan (PNG, JPG, WEBP - Max. 2MB per file)</p>
+                            @error('images.*')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+>>>>>>> 2b1bef433a28715d2f05849c99a0c3a3fe3590c3
                             
                             <!-- Preview Gallery Images -->
                             <div id="gallery-preview" class="mt-3 hidden">
@@ -248,7 +264,6 @@
                             </svg>
                             Upload foto berkualitas tinggi
                         </li>
-
                         <li class="flex items-start gap-2">
                             <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
