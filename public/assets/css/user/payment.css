@@ -1,0 +1,228 @@
+/* ===========================
+   USER PAYMENT PAGE STYLES
+=========================== */
+
+/* Fade in animation for alerts */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Info Card */
+.info-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Status Badge */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+/* Icon Box */
+.icon-box {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Payment Method Button */
+.payment-method-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    background: #f9fafb;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    color: #374151;
+}
+
+.payment-method-btn:hover {
+    border-color: #f59e0b;
+    background: #fff7ed;
+    transform: translateY(-2px);
+}
+
+.payment-method-btn.active {
+    border-color: #f59e0b;
+    background: #fff7ed;
+    color: #d97706;
+    box-shadow: 0 4px 6px rgba(245, 158, 11, 0.1);
+}
+
+/* Bank Select Dropdown */
+.bank-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    font-size: 0.9375rem;
+    color: #374151;
+    background: white;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.bank-select:focus {
+    outline: none;
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+.bank-select:hover {
+    border-color: #f59e0b;
+}
+
+/* Bank Option in Dropdown */
+.bank-option {
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.bank-option:hover {
+    background-color: #fff7ed;
+}
+
+.bank-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    background: #9ca3af;
+    border-radius: 0.25rem;
+    flex-shrink: 0;
+}
+
+/* Upload Area */
+.upload-area {
+    border: 2px dashed #d1d5db;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f9fafb;
+}
+
+.upload-area:hover {
+    border-color: #f59e0b;
+    background: #fff7ed;
+}
+
+.upload-area input[type="file"] {
+    display: none;
+}
+
+/* Image Preview in Upload */
+#image-preview img {
+    border: 3px solid #f59e0b;
+}
+
+/* Submit Button Hover Effect */
+#submit-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+#submit-btn:hover {
+    transform: translateY(-2px);
+}
+
+#submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .info-card {
+        padding: 1rem;
+    }
+    
+    .payment-method-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    .icon-box {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    
+    .icon-box svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+}
+
+/* Smooth Transitions */
+* {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Loading State */
+button[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Focus States for Accessibility */
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+    outline: 2px solid #f59e0b;
+    outline-offset: 2px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #f59e0b;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #d97706;
+}
